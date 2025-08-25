@@ -16,7 +16,7 @@ def generate_dataset(source_dir="dataset-source-codes"):
 
     #CodeBert accepted extensions: Python, Java, JavaScript, PHP, Ruby, Go.
     # List of code file extensions to look for.
-    code_extensions = ['js']
+    code_extensions = ['go']
 
     if not os.path.exists(source_dir):
         print(f"Error: Source directory '{source_dir}' not found.")
@@ -65,15 +65,15 @@ def generate_dataset(source_dir="dataset-source-codes"):
 
             # Human-Written Code
             if base_name == f"source_code_{folder_id_str}":
-                entry["class"] = 0
-                entry["model"] = "Human"
+                # entry["class"] = 0
+                entry["writer"] = "Human"
                 human_data.append(entry)
 
             # AI Code (GPT-4-TURBO-00)
             elif f"source_code_{folder_id_str}_gpt-4-turbo_00" in base_name:
                 if ext in code_extensions:
-                    entry["class"] = 1
-                    entry["model"] = "GPT-4-Turbo" 
+                    # entry["class"] = 1
+                    entry["writer"] = "AI" 
                     ai_data.append(entry)
             # elif f"source_code_{folder_id_str}_gemini_" in base_name:
             #     # Example for Gemini-generated code
@@ -84,20 +84,26 @@ def generate_dataset(source_dir="dataset-source-codes"):
             # # For example: elif f"source_code_{folder_id_str}_claude_" in base_name: ...
 
 
-    # Write collected data to JSONL files
-    with open("curated_datasets/javascript/human_javascript_1.jsonl", 'w', encoding='utf-8') as f_human:
-        for item in human_data:
-            f_human.write(json.dumps(item) + '\n')
+    # # Write collected data to JSONL files
+    # with open("curated_datasets/cpp/human_cpp_2.jsonl", 'w', encoding='utf-8') as f_human:
+    #     for item in human_data:
+    #         f_human.write(json.dumps(item) + '\n')
 
-    with open("curated_datasets/javascript/ai_javascript_1.jsonl", 'w', encoding='utf-8') as f_ai:
+    # with open("curated_datasets/cpp/ai_cpp_2.jsonl", 'w', encoding='utf-8') as f_ai:
+    #     for item in ai_data:
+    #         f_ai.write(json.dumps(item) + '\n')
+    
+    with open("curated_datasets/go/dataset_2.jsonl", 'w', encoding='utf-8') as f_ai:
         for item in ai_data:
             f_ai.write(json.dumps(item) + '\n')
+        for item in human_data:
+            f_ai.write(json.dumps(item) + '\n')
 
-    print("\n--- Dataset Generation Summary ---")
-    print(f"Human code samples written: {len(human_data)}")
-    print(f"AI code samples written: {len(ai_data)}")
-    print("Datasets 'human_javascript_1.jsonl' and 'ai_javascript_1.jsonl' created.")
-    print("----------------------------------\n")
+    # print("\n--- Dataset Generation Summary ---")
+    # print(f"Human code samples written: {len(human_data)}")
+    # print(f"AI code samples written: {len(ai_data)}")
+    # print("Datasets 'human_cpp_2.jsonl' and 'ai_cpp_2.jsonl' created.")
+    # print("----------------------------------\n")
 
 # Run the script by calling the function
 if __name__ == "__main__":
