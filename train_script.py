@@ -4,37 +4,64 @@ import json
 import time
 from evaluate_models import run_full_evaluation
 
+import os
+import json
+
+def split_jsonl_by_writer(input_file, output_dir):
+    os.makedirs(output_dir, exist_ok=True)
+
+    human_file = os.path.join(output_dir, "human_data.jsonl")
+    ai_file = os.path.join(output_dir, "ai_data.jsonl")
+
+    with open(input_file, "r", encoding="utf-8") as infile, \
+         open(human_file, "w", encoding="utf-8") as human_out, \
+         open(ai_file, "w", encoding="utf-8") as ai_out:
+
+        for line in infile:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                data = json.loads(line)
+            except json.JSONDecodeError:
+                continue 
+
+            writer = data.get("writer", "").lower()
+            if writer == "human":
+                human_out.write(json.dumps(data) + "\n")
+            elif writer == "ai":
+                ai_out.write(json.dumps(data) + "\n")
+
+    return human_file, ai_file
+
+
 def main():
     parser = argparse.ArgumentParser(description="Run TF-IDF and CodeBERT based model training.")
-    parser.add_argument("--human_dataset", type=str, required=True,
-                        help="Path to the Human Code JSONL file.")
-    parser.add_argument("--ai_dataset", type=str, required=True,
-                        help="Path to the AI Code JSONL file.")
-    
+    parser.add_argument("--dataset", type=str, required=True,
+                        help="Path to the JSONL file.")
+    parser.add_argument("--language", type=str, required=True,
+                        help="Programming language of the dataset.")
     args = parser.parse_args()
-    human_code_path = args.human_dataset
-    ai_code_path = args.ai_dataset
-
-    if not os.path.exists(human_code_path):
-        print(f"Error: Human code file not found at {human_code_path}")
+    
+    dataset_path = args.dataset
+    if not os.path.exists(dataset_path):
+        print(f"Error: Human code file not found at {dataset_path}")
         return
-    if not os.path.exists(ai_code_path):
-        print(f"Error: AI code file not found at {ai_code_path}")
-        return
-
-    print("Starting Training of Models")
+    
     save_dir = "results"
-    train_num_dir = time.strftime("%Y%m%d_%H%M%S")
+    train_num_dir = f"{time.strftime("%Y%m%d_%H%M%S")}_{args.language}_{os.path.basename(dataset_path).replace('.jsonl', '')}"
     run_path = os.path.join(save_dir, train_num_dir)
     os.makedirs(os.path.join(save_dir, train_num_dir), exist_ok=True)
 
-    metrics_tfidf = run_full_evaluation(
-        human_path=human_code_path,
-        ai_path=ai_code_path,
-        method="tfidf",
-        run_path=run_path
-    )
-    print("TF-IDF evaluation complete.")
+    human_code_path, ai_code_path = split_jsonl_by_writer(dataset_path, run_path)
+
+    # metrics_tfidf = run_full_evaluation(
+    #     human_path=human_code_path,
+    #     ai_path=ai_code_path,
+    #     method="tfidf",
+    #     run_path=run_path
+    # )
+    # print("TF-IDF evaluation complete.")
 
     metrics_codebert = run_full_evaluation(
         human_path=human_code_path,
@@ -45,17 +72,17 @@ def main():
     print("CodeBERT evaluation complete.")
 
     # -------- Save Results for TFI-DF --------
-    tfidf_metrics_to_save = {}
-    for k, v in metrics_tfidf.items():
-        if k == "__vectorizer__":  
-            continue
-        cleaned_metrics = {metric_key: metric_val for metric_key, metric_val in v.items() if metric_key != 'model'}
-        tfidf_metrics_to_save[k] = cleaned_metrics
+    # tfidf_metrics_to_save = {}
+    # for k, v in metrics_tfidf.items():
+    #     if k == "__vectorizer__":  
+    #         continue
+    #     cleaned_metrics = {metric_key: metric_val for metric_key, metric_val in v.items() if metric_key != 'model'}
+    #     tfidf_metrics_to_save[k] = cleaned_metrics
 
-    tfidf_metrics_filename = os.path.join(run_path, "metrics_tfidf.json")
-    with open(tfidf_metrics_filename, "w") as f:
-        json.dump(tfidf_metrics_to_save, f, indent=4)
-    print(f"TF-IDF metrics saved to {tfidf_metrics_filename}")
+    # tfidf_metrics_filename = os.path.join(run_path, "metrics_tfidf.json")
+    # with open(tfidf_metrics_filename, "w") as f:
+    #     json.dump(tfidf_metrics_to_save, f, indent=4)
+    # print(f"TF-IDF metrics saved to {tfidf_metrics_filename}")
 
     # -------- Save Results for CodeBERT --------
     code_bert_metrics = {}
