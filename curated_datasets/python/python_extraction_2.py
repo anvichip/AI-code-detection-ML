@@ -1,36 +1,84 @@
+import os
 import json
 
-# Dataset Source: https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/tree/main
+#Dataset Source: https://github.com/zzarif/AI-Detector/tree/main/data/dataset-source-codes.
+#Extensions available in dataset: {'json', 'go', 'dockerfile', 'php', 'cpp', 'cs', 'swift', 'dart', 'css', 'ts', 'kt', 'js', 'jav', 'py', 'sql'}.
 
-input_file = "AI-Human-Generated-Program-Code-Dataset.json" 
+def generate_dataset(source_dir="dataset-source-codes"):
+    """
+    Generates two JSONL datasets (human and AI code) from a source directory.
 
-ai_file = "curated_datasets/python/ai_python_2.jsonl"
-human_file = "curated_datasets/python/human_python_2.jsonl"
+    Args:
+        source_dir (str): The path to the directory containing source_code_XXX folders.
+    """
+    human_data = []
+    ai_data = []
 
-# Load the whole JSON array
-with open(input_file, "r", encoding="utf-8") as f:
-    data_list = json.load(f)  # returns a Python list
+    #CodeBert accepted extensions: Python, Java, JavaScript, PHP, Ruby, Go.
+    # List of code file extensions to look for.
+    code_extensions = ['py']
 
-ai_count = 0
-human_count = 0
+    if not os.path.exists(source_dir):
+        print(f"Error: Source directory '{source_dir}' not found.")
+        return
+    
+    # Loop through each folder in the source directory.
+    for folder_name in sorted(os.listdir(source_dir)):
+        folder_path = os.path.join(source_dir, folder_name)
 
-# Write AI and Human files
-with open(ai_file, "w", encoding="utf-8") as f_ai, \
-     open(human_file, "w", encoding="utf-8") as f_human:
+        # if it's not a directory and folder path is inconsistent, then continue.
+        if not os.path.isdir(folder_path) or not folder_name.startswith("source_code_"):
+            continue
 
-    for item in data_list:
-        if "language" in item:
-            if item["language"] == 'Python':
-                if "ai_generated_code" in item:
-                    f_ai.write(json.dumps({"code": item["ai_generated_code"], "language": item["language"]}, ensure_ascii=False) + "\n")
-                    ai_count += 1
-                if "human_generated_code" in item:
-                    f_human.write(json.dumps({"code": item["human_generated_code"], "language": item["language"]}, ensure_ascii=False) + "\n")
-                    human_count += 1
+        # get the number id of the folder.
+        folder_id_str = folder_name.replace("source_code_", "")
+        # try:
+        #     # folder_id = int(folder_id_str)
+        #     pass
+        # except ValueError:
+        #     print(f"Skipping malformed folder name: {folder_name}")
+        #     continue
 
-print("✅ Files saved: ai_python_2.jsonl, human_python_2.jsonl")
-# --- Dataset Summary ---
-print("\n📊 Dataset Summary:")
-print(f"AI code samples written: {ai_count}")
-print(f"Human code samples written: {human_count}")
-print(f"Total code samples written: {ai_count + human_count}")
+        # loop through the folder and get the files one by one. 
+        for file_name in os.listdir(folder_path):
+            base_name, ext = os.path.splitext(file_name)
+            ext = ext[1:] # Remove the leading dot from extension.
+            
+            # Loop through files in the current code folder.
+            base_name, ext = os.path.splitext(file_name)
+            ext = ext[1:] # Remove the leading dot from extension.
+
+            if ext not in code_extensions:
+                continue # Skip files not in extension list.
+
+            file_path = os.path.join(folder_path, file_name)
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    code_content = f.read()
+            except Exception as e:
+                print(f"Error reading code from {file_path}: {e}")
+                continue
+
+            entry = {
+                "code": code_content,
+            }
+
+            # Human-Written Code
+            if base_name == f"source_code_{folder_id_str}":
+                entry["writer"] = "Human"
+                human_data.append(entry)
+
+            # AI Code (GPT-4-TURBO-00)
+            elif f"source_code_{folder_id_str}_gpt-4-turbo_00" in base_name:
+                if ext in code_extensions:
+                    entry["writer"] = "AI" 
+                    ai_data.append(entry)
+    
+    with open("curated_datasets/python/dataset_2.jsonl", 'w', encoding='utf-8') as f_ai:
+        for item in ai_data:
+            f_ai.write(json.dumps(item) + '\n')
+        for item in human_data:
+            f_ai.write(json.dumps(item) + '\n')
+
+if __name__ == "__main__":
+    generate_dataset()
