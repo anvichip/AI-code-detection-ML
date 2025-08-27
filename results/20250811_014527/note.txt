@@ -1,1 +1,0 @@
-Trained on 126 rows of https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/blob/main/AI-Human-Generated-Program-Code-Dataset.jsonl

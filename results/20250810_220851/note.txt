@@ -1,1 +1,0 @@
-Trained on 600 rows of https://github.com/a0ms1n/AI-Code-Detector-for-Competitive-Programming/blob/master/datasets/train.csv
