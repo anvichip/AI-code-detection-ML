@@ -26,7 +26,13 @@ Dataset 3: https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/b
 File names during training are saved using the same convention of datasets naming.
 
 ## Training
-Use the following command to run `train_script.py` to train model on a datset to 
+Use the following command to run `train_script.py` to train model on a JSONL dataset.
 ```
 python3 -m scripts.train_script --dataset path/to/your/dataset.jsonl --language programming languages being used in training --save_dir results 
+```
+
+## Classification
+Use the following command to run `classify_script.py` to classify between an AI and a human written code using the trained models.
+```
+python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --code_file path/to/your/code/file --trained_models_path path/to/your/trained/models
 ```
