@@ -2,7 +2,7 @@ import argparse
 import os
 import json
 import time
-from evaluate_models import run_full_evaluation
+from training.evaluate_models import run_full_evaluation
 
 def split_jsonl_by_writer(input_file, output_dir):
     os.makedirs(output_dir, exist_ok=True)
@@ -36,8 +36,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run TF-IDF and CodeBERT based model training.")
     parser.add_argument("--dataset", type=str, required=True,
                         help="Path to the JSONL file.")
-    parser.add_argument("--language", type=str, required=True,
-                        help="Programming language of the dataset.")
+    parser.add_argument("--language", type=str, required=True, nargs="+",
+                        help="Programming language(s) of the dataset being used for training.")
     parser.add_argument("--save_dir", type=str, default="results",
                         help="Directory to save the training results.")
     args = parser.parse_args()
@@ -48,7 +48,8 @@ def main():
         return
     
     save_dir = args.save_dir
-    train_num_dir = f"{time.strftime("%Y%m%d_%H%M%S")}_{args.language}_{os.path.basename(dataset_path).replace('.jsonl', '')}"
+    language_dir = "_".join(args.language)
+    train_num_dir = f"{time.strftime("%Y%m%d_%H%M%S")}_{language_dir}_{os.path.basename(dataset_path).replace('.jsonl', '')}"
     run_path = os.path.join(save_dir, train_num_dir)
     os.makedirs(os.path.join(save_dir, train_num_dir), exist_ok=True)
 
@@ -105,4 +106,4 @@ if __name__ == "__main__":
     main()
 
 # Run Command Example
-# python3 train_script.py --human_dataset path/to/your/human_code.jsonl --ai_dataset path/to/your/ai_code.jsonl
+# python3 -m scripts.train_script --dataset curated_datasets/java/dataset_2.jsonl --language java --save_dir trial 

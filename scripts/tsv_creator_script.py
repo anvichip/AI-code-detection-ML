@@ -170,7 +170,7 @@ def main():
     parser = argparse.ArgumentParser(description="Process dataset metrics and output a TSV summary.")
     parser.add_argument("--data_dir", type=str, required=True, help="Directory containing the result folders")
     parser.add_argument("--metrics_file", type=str, default="codebert_metrics.json", help="Metrics filename inside each dataset folder")
-    parser.add_argument("--output_tsv", type=str, required=True, help="Output TSV file path")
+    parser.add_argument("--output_tsv", type=str, default="results_tsv.tsv", help="Output TSV file path")
     args = parser.parse_args()
 
     process_datasets(args.data_dir, args.metrics_file, args.output_tsv)
