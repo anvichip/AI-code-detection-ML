@@ -4,9 +4,6 @@ import json
 import time
 from evaluate_models import run_full_evaluation
 
-import os
-import json
-
 def split_jsonl_by_writer(input_file, output_dir):
     os.makedirs(output_dir, exist_ok=True)
 
@@ -41,14 +38,16 @@ def main():
                         help="Path to the JSONL file.")
     parser.add_argument("--language", type=str, required=True,
                         help="Programming language of the dataset.")
+    parser.add_argument("--save_dir", type=str, default="powerset_results",
+                        help="Directory to save the training results.")
     args = parser.parse_args()
     
     dataset_path = args.dataset
     if not os.path.exists(dataset_path):
-        print(f"Error: Human code file not found at {dataset_path}")
+        print(f"Error: Dataset file not found at {dataset_path}")
         return
     
-    save_dir = "results"
+    save_dir = args.save_dir
     train_num_dir = f"{time.strftime("%Y%m%d_%H%M%S")}_{args.language}_{os.path.basename(dataset_path).replace('.jsonl', '')}"
     run_path = os.path.join(save_dir, train_num_dir)
     os.makedirs(os.path.join(save_dir, train_num_dir), exist_ok=True)

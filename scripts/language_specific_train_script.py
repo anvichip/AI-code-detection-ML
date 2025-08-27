@@ -23,7 +23,7 @@ def main():
     parser.add_argument(
         "--train_script",
         type=str,
-        default="train_script.py",
+        default="scripts/train_script.py",
         help="Path to the training script."
     )
     args = parser.parse_args()
@@ -35,7 +35,7 @@ def main():
     for lang in args.languages:
         lang_dir = os.path.join(args.base_dir, lang)
         if not os.path.exists(lang_dir):
-            print(f"⚠️ Skipping {lang}: folder not found.")
+            print(f"Skipping {lang}: folder not found.")
             continue
 
         for file_name in sorted(os.listdir(lang_dir)):
