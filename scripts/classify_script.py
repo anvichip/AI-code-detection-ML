@@ -3,11 +3,9 @@ import os
 import pickle
 import sys 
 from sctokenizer import CppTokenizer
-from tokenizer_utils import get_codebert_embedding
+from training.tokenizer_utils import get_codebert_embedding
 
-# Define a function to load a single pickled model
 def load_model(filepath):
-    """Loads a pickled model from the given filepath."""
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Model file not found: {filepath}")
     with open(filepath, 'rb') as f:
@@ -26,7 +24,7 @@ def classify_code_snippet(
         if tokenizer_type == "TF-IDF":
             cpp_vectorizer_path = os.path.join(model_load_path, "vectorizer.pkl")
             if not os.path.exists(cpp_vectorizer_path):
-                print(f"Error: TF-IDF vectorizer not found at {cpp_vectorizer_path}. Ensure models were trained with TF-IDF.")
+                print(f"TF-IDF vectorizer not found at {cpp_vectorizer_path}. Ensure models were trained with TF-IDF.")
                 return None
             cpp_vectorizer = load_model(cpp_vectorizer_path)
 
@@ -45,11 +43,10 @@ def classify_code_snippet(
             prediction = selected_model.predict(features)[0]
 
         elif tokenizer_type == "CodeBERT":
-            # Load CodeBERT specific models
             if model_name == "Ensemble":
-                model_filepath = os.path.join(model_load_path, "voting_ensemble_model.pkl") # Assuming CodeBERT ensemble is also named this way, adjust if different
+                model_filepath = os.path.join(model_load_path, "voting_ensemble_model.pkl") 
             else:
-                model_filepath = os.path.join(model_load_path, f"codebert_{model_name.lower()}_model.pkl")
+                model_filepath = os.path.join(model_load_path, f"{model_name.lower()}_model.pkl")
 
             selected_model = load_model(model_filepath)
 
@@ -96,11 +93,10 @@ def main_cli():
     else:
         print("Paste your code snippet below. Press Ctrl+D (Unix/Linux/macOS) or Ctrl+Z then Enter (Windows) when done:")
         input_code_content = sys.stdin.read()
-        if not input_code_content.strip(): # Check if input is empty
+        if not input_code_content.strip():
              print("No code snippet provided. Exiting.")
              return
 
-    # Call the classification function
     classify_code_snippet(
         tokenizer_type=args.tokenizer,
         model_name=args.model,
