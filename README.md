@@ -26,8 +26,7 @@ Dataset 3: https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/b
 File names during training are saved using the same convention of datasets naming.
 
 ## Dataset Format
-The project expects the dataset to be used for training in JSONL format.
-Here is and example:
+The project expects the dataset to be used for training in JSONL format with keys `writer` and `code` indicating the writer and the code respectively.
 
 ```json
 {"writer": "AI", "code": "#include <bits/stdc++.h>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(nullptr);\n    \n    int t;\n    cin >> t;\n    while (t--) {\n        string s;\n        cin >> s;\n        char min_char = *min_element(s.begin(), s.end());\n        size_t pos = s.find(min_char);\n        string a(1, min_char);\n        string b = s.substr(0, pos) + s.substr(pos + 1);\n        cout << a << \" \" << b << \"\\n\";\n    }\n    \n    return 0;\n}\n"}
