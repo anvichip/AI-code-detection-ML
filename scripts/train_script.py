@@ -38,7 +38,7 @@ def main():
                         help="Path to the JSONL file.")
     parser.add_argument("--language", type=str, required=True,
                         help="Programming language of the dataset.")
-    parser.add_argument("--save_dir", type=str, default="powerset_results",
+    parser.add_argument("--save_dir", type=str, default="results",
                         help="Directory to save the training results.")
     args = parser.parse_args()
     
