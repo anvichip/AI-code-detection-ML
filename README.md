@@ -4,8 +4,8 @@ This project focuses on training machine learning models to distinguish between 
 
 ## Installation 
 ```
-git clone https://github.com/yourusername/ai-code-detector.git
-cd ai-code-detector
+git clone https://github.com/anvichip/AI-code-detection-ML.git
+cd AI-code-detection-ML
 pip install -r requirements.txt
 ```
 
