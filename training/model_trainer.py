@@ -5,9 +5,6 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import os
 import pickle
-# import matplotlib.pyplot as plt
-from sklearn.metrics import roc_curve, auc
-from sklearn.preprocessing import label_binarize
 
 def evaluate_model(model, X_test, y_test):
     y_pred = model.predict(X_test)
@@ -18,7 +15,6 @@ def evaluate_model(model, X_test, y_test):
         "f1": f1_score(y_test, y_pred)
     }
 
-# def train_models(X_train, y_train, X_test, y_test, vectorizer=None):
 def train_models(X_train, y_train, X_test, y_test, run_path, vectorizer=None):
     models = {
         "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
@@ -32,37 +28,9 @@ def train_models(X_train, y_train, X_test, y_test, run_path, vectorizer=None):
         print("training ", model)
         model.fit(X_train, y_train)
 
-    #     # Get predicted probabilities
-    #     if hasattr(model, "predict_proba"):
-    #         y_proba = model.predict_proba(X_test)[:, 1]
-    #     else:
-    #         # Some models (like SVM without probability=True) may not support predict_proba
-    #         y_proba = model.decision_function(X_test)
-        
-    #     # Compute ROC curve and AUC
-    #     fpr, tpr, _ = roc_curve(y_test, y_proba)
-    #     roc_auc = auc(fpr, tpr)
-        
-    #     # Plot
-    #     plt.plot(fpr, tpr, lw=2, label=f"{model} (AUC = {roc_auc:.2f})")
-
-    # # Plot settings
-    # plt.plot([0, 1], [0, 1], 'k--', lw=2)
-    # plt.xlim([0.0, 1.0])
-    # plt.ylim([0.0, 1.05])
-    # plt.xlabel('False Positive Rate')
-    # plt.ylabel('True Positive Rate')
-    # plt.title('ROC Curve for Different Models')
-    # plt.legend(loc='lower right')
-    # plt.grid()
-    # plt.tight_layout()
-    # plt.show()
-
-    ## Train and Save the trained models to a directory
     model_dir = "trained_models"
     full_model_save_path = os.path.join(run_path, model_dir)
     os.makedirs(full_model_save_path, exist_ok=True)
-
     print(f"Training and saving models to '{full_model_save_path}'...")
 
     for name, model in models.items():
