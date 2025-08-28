@@ -44,16 +44,24 @@ Use the following command to run `classify_script.py` to classify between an AI 
 ```
 python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --code_file path/to/your/code/file --trained_models_path path/to/your/trained/models
 ```
-## Experiment Results
+## Experiment
+### Dataset
+
+### Setup
 We chose to merge the three datasets mentioned in the Dataset section together to train our models.
-
 We used `powerset_script.py` to train the models on individual and merged dataset for each language and also a merged dataset.
+The complete results can be found here.
 
-The results are as follow:
+### Research Question
+- **Question 1**:
+- **Question 2**:
+- **Question 3**:
+- **Question 4**:
+  
+### Results
 
 ## Convert to tsv file
 Optionally, you can choose to convert your results into a .tsv for easier readability by using `tsv_creator_script.py`
-
 ```
 python3 -m scripts.tsv_creator_script --data_dir path/to/your/results/directory --metrics_file codebert_metrics.json --output_tsc name_to_save_tsv_file
 ```
