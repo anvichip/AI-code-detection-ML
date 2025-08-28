@@ -7,7 +7,8 @@ The following machine learning models are trained and used to classify between A
 - Random Forest
 - SVM
 - XGBoost
-- Ensemble Model (A soft-voting ensemble that combines Random Forest, SVM, XGBoost, and MLP by averaging their predicted probabilities)
+- Ensemble Model
+  - A soft-voting ensemble that combines Random Forest, SVM, XGBoost, and MLP by averaging their predicted probabilities
 
 ## Installation 
 ```
