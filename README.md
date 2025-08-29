@@ -1,5 +1,7 @@
 # AI Code Dectection
 
+
+
 This project focuses on training machine learning models to distinguish between human-written and AI-generated code using CodeBERT.
 
 The following machine learning models are trained and used to classify between AI and human generated code.
@@ -46,6 +48,8 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 ```
 ## Experiment
 ### Dataset
+
+
 
 ### Setup
 We chose to merge the three datasets mentioned in the Dataset section together to train our models.
