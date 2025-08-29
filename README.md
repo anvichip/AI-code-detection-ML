@@ -55,13 +55,13 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 - Each dataset in the powerset was trained and tested on each dataset of the powerset.
 - A total of 3969 training testing runs were performed.
 - Embeddngs were extracted by using [CodeBERT](https://github.com/microsoft/CodeBERT).
-- The training process was carried out using `train_script.py`
+- The training process was carried out using `train_script.py`.
 - The following machine learning models were employed in the training process:
-       - [**Random Forest**](https://en.wikipedia.org/wiki/Random_forest)  
-      - [**Support Vector Machine (SVM)**](https://en.wikipedia.org/wiki/Support_vector_machine)
-      - [**XGBoost**](https://en.wikipedia.org/wiki/XGBoost) 
-      - [**Multi-Layer Perceptron (MLP)**](https://en.wikipedia.org/wiki/Multilayer_perceptron)
-      - [**Ensemble Model**](https://en.wikipedia.org/wiki/Ensemble_learning): [Soft Voting Classifier](https://www.geeksforgeeks.org/machine-learning/voting-classifier/) combining the above four models.
+  - [**Random Forest**](https://en.wikipedia.org/wiki/Random_forest)  
+  - [**Support Vector Machine (SVM)**](https://en.wikipedia.org/wiki/Support_vector_machine)
+  - [**XGBoost**](https://en.wikipedia.org/wiki/XGBoost) 
+  - [**Multi-Layer Perceptron (MLP)**](https://en.wikipedia.org/wiki/Multilayer_perceptron)
+  - [**Ensemble Model**](https://en.wikipedia.org/wiki/Ensemble_learning): [Soft Voting Classifier](https://www.geeksforgeeks.org/machine-learning/voting-classifier/) combining the above four models.
 
 - The complete results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
