@@ -46,15 +46,24 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 
 ## Experiment
 ### Dataset
-- Data from the open-source datasets mentioned above was extracted for each language using the scripts: `data_scripts/source_files_extractor.py`, `data_scripts/csv_data_extraction.py`, and `data_scripts/json_data_extraction.py`.
-- The extracted language specific datasets can be found in [curated dataset directory](curated_datasets)
+- Data from the open-source datasets mentioned above was extracted for each language using the scripts: `source_files_extractor.py`, `csv_data_extraction.py`, and `json_data_extraction.py`.
+- The extracted language specific datasets can be found in [curated dataset directory](curated_datasets).
+- These language specific datasets were merged using `data_scripts/merge_json.py`.
+- A powerset of the merged language was created by using `powerset_script.py`, resulting in unique combination of 63 datasets.
 
+### Methodology
+- Each dataset in the powerset was trained and tested on each dataset of the powerset.
+- A total of 3969 training testing runs were performed.
+- Embeddngs were extracted by using [CodeBERT](https://github.com/microsoft/CodeBERT).
+- The training process was carried out using `train_script.py`
+- The following machine learning models were employed in the training process:
+       - [**Random Forest**](https://en.wikipedia.org/wiki/Random_forest)  
+      - [**Support Vector Machine (SVM)**](https://en.wikipedia.org/wiki/Support_vector_machine)
+      - [**XGBoost**](https://en.wikipedia.org/wiki/XGBoost) 
+      - [**Multi-Layer Perceptron (MLP)**](https://en.wikipedia.org/wiki/Multilayer_perceptron)
+      - [**Ensemble Model**](https://en.wikipedia.org/wiki/Ensemble_learning): [Soft Voting Classifier](https://www.geeksforgeeks.org/machine-learning/voting-classifier/) combining the above four models.
 
-
-### Setup
-We chose to merge the three datasets mentioned in the Dataset section together to train our models.
-We used `powerset_script.py` to train the models on individual and merged dataset for each language and also a merged dataset.
-The complete results can be found here.
+- The complete results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
 ### Research Question
 - **Question 1**:
