@@ -65,7 +65,7 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 
 ### Methodology
 - Each dataset in the powerset was trained and evaluated against every other dataset in the powerset.
-- This resulted in a total of 3,969 training–testing runs..
+- This resulted in a total of 3,969 training–testing runs.
 - Embeddings were extracted by using [CodeBERT](https://github.com/microsoft/CodeBERT).
 - The machine learning models were trained and evaluated using `train_script.py`.
 - The following machine learning models were employed in the training process:
