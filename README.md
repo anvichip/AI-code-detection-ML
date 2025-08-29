@@ -78,11 +78,12 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 
 - The complete experiment results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
-### Research Question
-- **Question 1**:
-- **Question 2**:
-- **Question 3**:
-- **Question 4**:
+### Research Questions
+- **RQ1**: Do models benefit from being trained on more than one language? 
+- **RQ2**: Which family of models performs the best?
+- **RQ3**: Is it better to use a model trained on more than one language, or a model with few data points?
+- **RQ4**: How well do models trained on one language generalize to unseen languages?
+- **RQ5**: How does dataset size affect performance?
   
 ### Results
 
