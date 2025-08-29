@@ -1,16 +1,14 @@
 # AI Code Dectection
 
-
-
+## Project Introduction
 This project focuses on training machine learning models to distinguish between human-written and AI-generated code using CodeBERT.
-
 The following machine learning models are trained and used to classify between AI and human generated code.
 - MLP
 - Random Forest
 - SVM
 - XGBoost
 - Ensemble Model
-  - A soft-voting ensemble that combines Random Forest, SVM, XGBoost, and MLP by averaging their predicted probabilities
+  - A soft-voting ensemble that combines Random Forest, SVM, XGBoost, and MLP by averaging their predicted probabilities.
 
 ## Installation 
 ```
@@ -21,7 +19,6 @@ pip install -r requirements.txt
 
 ## Datasets
 The project uses 3 open-source datasets for training and evaluating the models.
-
 - [Dataset 1](https://github.com/a0ms1n/AI-Code-Detector-for-Competitive-Programming)
 - [Dataset 2](https://github.com/zzarif/AI-Detector/tree/main)  
 - [Dataset 3](https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/blob/main)
@@ -46,8 +43,11 @@ Use the following command to run `classify_script.py` to classify between an AI 
 ```
 python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --code_file path/to/your/code/file --trained_models_path path/to/your/trained/models
 ```
+
 ## Experiment
 ### Dataset
+- Data from the open-source datasets mentioned above was extracted for each language using the scripts: `data_scripts/source_files_extractor.py`, `data_scripts/csv_data_extraction.py`, and `data_scripts/json_data_extraction.py`.
+- The extracted language specific datasets can be found in [curated dataset directory](curated_datasets)
 
 
 
