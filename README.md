@@ -86,6 +86,31 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 - **RQ5**: How does dataset size affect performance?
   
 ### Results
+**RQ1**: 
+Steps:  
+- A new derived column named `Train_Type` was created to categorize models as being trained on either a Single Language or Multiple Languages.
+- Then, a pivot table was inserted using the configuration:
+- Rows:
+  - `Train_Type`
+- Values:
+  - `Accuracy (Average)`
+  - `Precision (Average)`
+  - `Recall (Average)`
+  - `F1 (Average)`
+  
+Experiment Table: 
+| Train_Type | AVERAGE of Accuracy | AVERAGE of Precision | AVERAGE of Recall | AVERAGE of F1 |
+|:----------:|:-------------------:|:--------------------:|:-----------------:|:-------------:|
+| Multiple   | 0.6568242829        | 0.565785575          | 0.6589429128      | 0.5612754107  |
+| Single     | 0.6350984127        | 0.5765079365         | 0.646984127       | 0.5503619048  |
+
+- Accuracy: Models trained on multiple languages (0.657) slightly outperform single-language ones (0.635).
+- Recall: Again, multiple-language models (0.659) are better than single (0.647), suggesting they are more likely to correctly identify positives.
+- Precision: Single-language models (0.577) edge out multiple (0.566), meaning they make fewer false positives.
+- F1 Score: Multiple (0.561) > Single (0.550), showing a balanced gain overall.
+
+**RQ2**: 
+
 
 ## Convert to tsv file
 Optionally, you can choose to convert your results into a .tsv for easier readability by using `tsv_creator_script.py`
