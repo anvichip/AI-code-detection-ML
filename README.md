@@ -169,5 +169,5 @@ Steps:
 ## Convert to tsv file
 Optionally, you can choose to convert your results into a .tsv for easier readability by using `tsv_creator_script.py`
 ```
-python3 -m scripts.tsv_creator_script --data_dir path/to/your/results/directory --metrics_file codebert_metrics.json --output_tsc name_to_save_tsv_file
+python3 -m scripts.tsv_creator_script --data_dir path/to/your/results/directory --metrics_file codebert_metrics.json --output_tsv name_to_save_tsv_file
 ```
