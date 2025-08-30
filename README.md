@@ -98,19 +98,74 @@ Steps:
   - `Recall (Average)`
   - `F1 (Average)`
   
-Experiment Table: 
+**Experiment Table:** 
 | Train_Type | AVERAGE of Accuracy | AVERAGE of Precision | AVERAGE of Recall | AVERAGE of F1 |
 |:----------:|:-------------------:|:--------------------:|:-----------------:|:-------------:|
 | Multiple   | 0.6568242829        | 0.565785575          | 0.6589429128      | 0.5612754107  |
 | Single     | 0.6350984127        | 0.5765079365         | 0.646984127       | 0.5503619048  |
 
+**Analysis:**  
 - Accuracy: Models trained on multiple languages (0.657) slightly outperform single-language ones (0.635).
 - Recall: Again, multiple-language models (0.659) are better than single (0.647), suggesting they are more likely to correctly identify positives.
 - Precision: Single-language models (0.577) edge out multiple (0.566), meaning they make fewer false positives.
 - F1 Score: Multiple (0.561) > Single (0.550), showing a balanced gain overall.
 
 **RQ2**: 
+**Steps**:
+- The dataset already contains a Model column, which represents the family of models (e.g., Random Forest, SVM, Neural Network, etc.).
+- Pivot table was created with the following configuration:
+- Rows:
+  - `Model`
+- Values:
+  - `Accuracy (Average)`
+  - `Precision (Average)`
+  - `Recall (Average)`
+  - `F1 (Average)`
 
+**Experiment Table:** 
+|      Model       | AVERAGE of Accuracy | AVERAGE of Precision | AVERAGE of Recall | AVERAGE of F1 |
+|:----------------:|:-------------------:|:--------------------:|:-----------------:|:-------------:|
+| MLP              | 0.6824270353        | 0.6530261137         | 0.5802150538      | 0.5715412186  |
+| Random Forest    | 0.6319098822        | 0.5203174603         | 0.5984229391      | 0.5010240655  |
+| SVM              | 0.5501075269        | 0.4559344598         | 0.8366205837      | 0.5805325141  |
+| Voting Ensemble  | 0.6964669739        | 0.5918689196         | 0.6493804403      | 0.5791295443  |
+| XGBoost          | 0.7144495648        | 0.6121044547         | 0.6252534562      | 0.5697491039  |
+
+**Analysis**: 
+- XGBoost: Highest accuracy and strong precision, but moderate recall → best for overall correctness.
+- MLP: Best precision, meaning fewer false positives, with balanced overall performance.
+- SVM: Extremely high recall, meaning it rarely misses positives, but its accuracy and precision are low → prone to false alarms.
+- Voting Ensemble: Well-rounded across all metrics, second-best accuracy and good recall, making it a balanced choice.
+- Random Forest: Underperforms in almost all metrics.
+
+**RQ3**: 
+**Steps**:
+- A new derived column `Data_Size_Category` was created using the formula:
+  ```=IF(G2<50,"Small",IF(G2<500,"Medium","Large"))```
+- Pivot table was created with the following configuration:
+- Rows:
+  - `Train_Type`
+- Columns:
+  - `Train_Size_Type`
+- Values:
+  - `Accuracy (Average)`
+
+**Experiment Table:** 
+| Train_Type |    Large    |   Medium    |    Small    |
+|:----------:|:-----------:|:-----------:|:-----------:|
+| Multiple   | 0.7029205021 | 0.6435147392 | 0.641755575  |
+| Single     | 0.7308333333 | 0.6842597403 | 0.5518297872 |
+
+**Analysis**: 
+- Large Training Sets
+  - Single-language models (0.731) slightly outperform multi-language models (0.703).
+      - Suggests that when enough data is available, single-language specialization yields the best accuracy.
+  - Medium Training Sets
+     - Single (0.684) > Multiple (0.644).
+    - Still, single-language training holds a small advantage when data is moderately sized.
+  - Small Training Sets
+     - Multiple (0.642) far outperforms single (0.552).
+     - With limited data, having language diversity helps compensate for low sample size.
 
 ## Convert to tsv file
 Optionally, you can choose to convert your results into a .tsv for easier readability by using `tsv_creator_script.py`
