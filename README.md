@@ -132,11 +132,10 @@ Steps:
 | XGBoost          | 0.7144495648        | 0.6121044547         | 0.6252534562      | 0.5697491039  |
 
 **Analysis**: 
-- XGBoost: Highest accuracy and strong precision, but moderate recall → best for overall correctness.
+- XGBoost: Highest accuracy and precision, but moderate recall.
 - MLP: Best precision, meaning fewer false positives, with balanced overall performance.
 - SVM: Extremely high recall, meaning it rarely misses positives, but its accuracy and precision are low → prone to false alarms.
 - Voting Ensemble: Well-rounded across all metrics, second-best accuracy and good recall, making it a balanced choice.
-- Random Forest: Underperforms in almost all metrics.
 
 **RQ3**: 
 **Steps**:
