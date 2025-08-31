@@ -79,63 +79,94 @@ python3 -m scripts.classify_script --tokenizer CodeBERT or TF-IDF --model "" --c
 - The complete experiment results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
 ### Research Questions
-- **RQ1**: Do models benefit from being trained on more than one language? 
+- **RQ1**: Is it better to use a model trained on more than one language, or a model with few data points?
 - **RQ2**: Which family of models performs the best?
-- **RQ3**: Is it better to use a model trained on more than one language, or a model with few data points?
-- **RQ4**: How well do models trained on one language generalize to unseen languages?
-- **RQ5**: How does dataset size affect performance?
+- **RQ3**: How well do models trained on one language generalize to unseen languages?
+- **RQ4**: How does dataset size affect performance?
+
+- RQ1: Do models benefit from being trained on more than one language?
+RQ2: Which family of models performs the best?
+RQ3: Is it better to use a model trained on more than one language, or a model with few data points?
+RQ4: How well do models trained on one language generalize to unseen languages?
+RQ5: How does dataset size affect performance?
   
 ### Results
 **RQ1**: 
 Steps:  
-- A new derived column named `Train_Type` was created to categorize models as being trained on either a Single Language or Multiple Languages.
-- Then, a pivot table was inserted using the configuration:
-- Rows:
-  - `Train_Type`
-- Values:
-  - `Accuracy (Average)`
-  - `Precision (Average)`
-  - `Recall (Average)`
-  - `F1 (Average)`
+- We conducted 2 comparisons to derive an answer to this question.
+- We considered `Java` as training language and compared its F1 score when it was trained with a combination of languages.
   
 **Experiment Table:** 
-| Train_Type | AVERAGE of Accuracy | AVERAGE of Precision | AVERAGE of Recall | AVERAGE of F1 |
-|:----------:|:-------------------:|:--------------------:|:-----------------:|:-------------:|
-| Multiple   | 0.6568242829        | 0.565785575          | 0.6589429128      | 0.5612754107  |
-| Single     | 0.6350984127        | 0.5765079365         | 0.646984127       | 0.5503619048  |
+|        Training Languages        | Testing Language | Accuracy |   F1       |
+|:--------------------------------:|:----------------:|:--------:|:----------:|
+| java                             | java             | 0.90     | **0.90**   |
+| java, cpp                        | java             | 0.62     | 0.45       |
+| java, cpp, javascript            | java             | 0.64     | 0.50       |
+| java, javascript                 | java             | 0.64     | 0.50       |
+| python, java                     | java             | 0.90     | 0.90       |
+| python, java, cpp                | java             | 0.62     | 0.45       |
+| python, java, cpp, javascript    | java             | 0.64     | 0.50       |
+| python, java, javascript         | java             | 0.64     | 0.50       |
+
+**Note: PHP and Go were excluded from the experiment due to lack of sufficient data.
 
 **Analysis:**  
-- Accuracy: Models trained on multiple languages (0.657) slightly outperform single-language ones (0.635).
-- Recall: Again, multiple-language models (0.659) are better than single (0.647), suggesting they are more likely to correctly identify positives.
-- Precision: Single-language models (0.577) edge out multiple (0.566), meaning they make fewer false positives.
-- F1 Score: Multiple (0.561) > Single (0.550), showing a balanced gain overall.
+- The F1 score and accuracy both dropped when java was trained on a combination of languages.
+
+On the other hand, when we inspected the testing of the above models on `cpp` language we observed both increases and decreases in performance.
+
+|       Training Languages        | Testing Languages |   F1   | Accuracy |
+|:-------------------------------:|:-----------------:|:------:|:--------:|
+| java                            | cpp               | 0.69   | 0.65     |
+| java, cpp                       | cpp               | 0.92   | 0.92     |
+| java, cpp, javascript           | cpp               | 0.13   | 0.50     |
+| java, javascript                | cpp               | 0.13   | 0.50     |
+| python, java                    | cpp               | 0.69   | 0.65     |
+| python, java, cpp               | cpp               | 0.92   | 0.92     |
+| python, java, cpp, javascript   | cpp               | 0.13   | 0.50     |
+| python, java, javascript        | cpp               | 0.13   | 0.50     |
+
+**Analysis:**  
+- The F1 score and accuracy both dropped and increased when java was trained on a combination of languages but tested on `c++`.
+- It is also worthy to note how adding javascript in the mixture of languages significantly reduces the performance.
 
 **RQ2**: 
 **Steps**:
-- The dataset already contains a Model column, which represents the family of models (e.g., Random Forest, SVM, Neural Network, etc.).
-- Pivot table was created with the following configuration:
-- Rows:
-  - `Model`
-- Values:
-  - `Accuracy (Average)`
-  - `Precision (Average)`
-  - `Recall (Average)`
-  - `F1 (Average)`
+- The dataset already contains a `Model` column, which represents the family of models (e.g., Random Forest, SVM, Random Forest etc.).
+- A column called `Train_Size_Type` was created with the formula:
+  
+  ```=IF(G2<40,"Tiny",IF(G2<100,"Small",IF(G2<250,"Medium",IF(G2<500,"Large","Large"))))```  
 
-**Experiment Table:** 
-|      Model       | AVERAGE of Accuracy | AVERAGE of Precision | AVERAGE of Recall | AVERAGE of F1 |
-|:----------------:|:-------------------:|:--------------------:|:-----------------:|:-------------:|
-| MLP              | 0.6824270353        | 0.6530261137         | 0.5802150538      | 0.5715412186  |
-| Random Forest    | 0.6319098822        | 0.5203174603         | 0.5984229391      | 0.5010240655  |
-| SVM              | 0.5501075269        | 0.4559344598         | 0.8366205837      | 0.5805325141  |
-| Voting Ensemble  | 0.6964669739        | 0.5918689196         | 0.6493804403      | 0.5791295443  |
-| XGBoost          | 0.7144495648        | 0.6121044547         | 0.6252534562      | 0.5697491039  |
+  According to the train size number, rows were put into classes - `Tiny`, `Small`, `Medium`, `Large`.
+
+**Setup**
+- We took rows where training languae is equal to testing language.
+- Then for each of the buckets created earlier we took an average of the F1 score obtained for that model.
+- We filtered out the average of all the models with dataset `small`.
+
+  Results are as follows:
+  
+|      Model       |     avg F1     |
+|:----------------:|:--------------:|
+| SVM              | 0.86           |
+| Voting Ensemble  | 0.9266666667   |
+| XGBoost          | 0.9266666667   |
+| Random Forest    | 0.9033333333   |
+| MLP              | 0.8633333333   |
+| SVM              | 0.75           |
+
+- Then, we filtered out the average of all the models with dataset `Large`.
+
+|      Model       | avg F1 |
+|:----------------:|:------:|
+| MLP              | 0.94   |
+| Voting Ensemble  | 0.94   |
+| XGBoost          | 0.94   |
+| Random Forest    | 0.92   |
+| SVM              | 0.86   |
 
 **Analysis**: 
-- XGBoost: Highest accuracy and precision, but moderate recall.
-- MLP: Best precision, meaning fewer false positives, with balanced overall performance.
-- SVM: Extremely high recall, meaning it rarely misses positives, but its accuracy and precision are low → prone to false alarms.
-- Voting Ensemble: Well-rounded across all metrics, second-best accuracy and good recall, making it a balanced choice.
+- Voting Ensemble, XGBoost, and Random Forest perform well in both the setups.
 
 **RQ3**: 
 **Steps**:
