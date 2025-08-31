@@ -96,7 +96,6 @@ Steps:
 - We conducted 2 comparisons to derive an answer to this question.
 - We considered `Java` as training language and compared its F1 score when it was trained with a combination of languages.
   
-**Experiment Table:** 
 |        Training Languages        | Testing Language | Accuracy |   F1       |
 |:--------------------------------:|:----------------:|:--------:|:----------:|
 | java                             | java             | 0.90     | **0.90**   |
@@ -170,32 +169,62 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 
 **RQ3**: 
 **Steps**:
-- A new derived column `Data_Size_Category` was created using the formula:
-  ```=IF(G2<50,"Small",IF(G2<500,"Medium","Large"))```
-- Pivot table was created with the following configuration:
-- Rows:
-  - `Train_Type`
-- Columns:
-  - `Train_Size_Type`
-- Values:
-  - `Accuracy (Average)`
+- In order to derive an answer to this question, we created 2 tables.
+- One table represented the languages trained and tested on themselves.
 
-**Experiment Table:** 
-| Train_Type |    Large    |   Medium    |    Small    |
-|:----------:|:-----------:|:-----------:|:-----------:|
-| Multiple   | 0.7029205021 | 0.6435147392 | 0.641755575  |
-| Single     | 0.7308333333 | 0.6842597403 | 0.5518297872 |
+| Training Languages | Testing Languages |   F1   |
+|:------------------:|:-----------------:|:------:|
+| cpp                | cpp               | 0.92   |
+| java               | java              | 0.90   |
+| javascript         | javascript        | 0.67   |
+| php                | php               | 0.00   |
+| python             | python            | 0.91   |
 
-**Analysis**: 
-- Large Training Sets
-  - Single-language models (0.731) slightly outperform multi-language models (0.703).
-      - Suggests that when enough data is available, single-language specialization yields the best accuracy.
-  - Medium Training Sets
-     - Single (0.684) > Multiple (0.644).
-    - Still, single-language training holds a small advantage when data is moderately sized.
-  - Small Training Sets
-     - Multiple (0.642) far outperforms single (0.552).
-     - With limited data, having language diversity helps compensate for low sample size.
+- The other table we created, showed the performance of languages when tested on varied unseen languages.
+
+| Training Languages | Testing Languages |   F1   | Accuracy |
+|:------------------:|:-----------------:|:------:|:--------:|
+| java               | java              | 0.90   | 0.90     |
+| java               | cpp               | 0.69   | 0.65     |
+| java               | python            | 0.71   | 0.62     |
+
+  A few interesting observation to note:
+- Seen Language (java → java)
+  - Very strong performance (Accuracy = 0.90, F1 = 0.90).
+    Confirms excellent specialization when tested on the training language.
+- Unseen Languages
+  - cpp: Moderate generalization (Acc = 0.65, F1 = 0.69).
+  - python: Slightly weaker (Acc = 0.62, F1 = 0.71).
+
+Cross-Language Patterns
+Java → JavaScript shows exceptional transfer, suggesting that models trained on Java can easily adapt to JavaScript due to syntactic and conceptual similarity.
+Transfer to C++ and Python is weaker but still better than random, meaning the model does retain useful cross-language representations.
+
+**RQ5**: How does dataset size affect performance?
+Steps:
+- We divided training size into buckets of - 40, 100, 500 as Tiny, Medium, Large respectively.
+- Then, we calculated model-wise performance in these buckets.
+  
+|      Model       | Train_Size_Type |  Average F1  |
+|:----------------:|:---------------:|:------------:|
+| MLP              | Tiny            | 0.536        |
+| MLP              | Small           | 0.8633       |
+| MLP              | Large           | 0.94         |
+| Random Forest    | Tiny            | 0.536        |
+| Random Forest    | Small           | 0.9033       |
+| Random Forest    | Large           | 0.92         |
+| SVM              | Tiny            | 0.496        |
+| SVM              | Small           | 0.75         |
+| SVM              | Large           | 0.86         |
+| Voting Ensemble  | Tiny            | 0.6          |
+| Voting Ensemble  | Small           | 0.9267       |
+| Voting Ensemble  | Large           | 0.94         |
+| XGBoost          | Tiny            | 0.6          |
+| XGBoost          | Small           | 0.9267       |
+| XGBoost          | Large           | 0.94         |
+
+**Analysis**
+- From the table above, it is visible that model performance does increase with the dataset size.
 
 ## Convert to tsv file
 Optionally, you can choose to convert your results into a .tsv for easier readability by using `tsv_creator_script.py`
