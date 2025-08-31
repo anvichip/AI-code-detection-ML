@@ -146,24 +146,24 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 
   Results are as follows:
   
-|      Model       |     avg F1     |
+|      Model       |   Average F1   |
 |:----------------:|:--------------:|
 | SVM              | 0.86           |
-| Voting Ensemble  | 0.9266666667   |
-| XGBoost          | 0.9266666667   |
-| Random Forest    | 0.9033333333   |
-| MLP              | 0.8633333333   |
+| Voting Ensemble  | 0.92           |
+| XGBoost          | 0.92           |
+| Random Forest    | 0.90           | 
+| MLP              | 0.86           |
 | SVM              | 0.75           |
 
 - Then, we filtered out the average of all the models with dataset `Large`.
 
-|      Model       | avg F1 |
-|:----------------:|:------:|
-| MLP              | 0.94   |
-| Voting Ensemble  | 0.94   |
-| XGBoost          | 0.94   |
-| Random Forest    | 0.92   |
-| SVM              | 0.86   |
+|      Model       | Average F1 |
+|:----------------:|:----------:|
+| MLP              | 0.94       |
+| Voting Ensemble  | 0.94       |
+| XGBoost          | 0.94       |
+| Random Forest    | 0.92       |
+| SVM              | 0.86       |
 
 **Analysis**: 
 - Voting Ensemble, XGBoost, and Random Forest perform well in both the setups.
