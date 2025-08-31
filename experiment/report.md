@@ -201,7 +201,7 @@ Analysis:
 **Steps**:
 - Training sizes were bucketed into three categories:
   - Tiny (< 40 samples)
-  - Medium (< 100 samples)
+  - Small (< 100 samples)
   - Large (< 500 samples)
 - For each bucket, we computed the average F1 score per model.
 - Performance trends were visualized in the graph below.
@@ -212,5 +212,5 @@ Analysis:
 - Positive correlation with size:
   - Across all models, performance improves as dataset size increases, confirming that more training data consistently benefits model learning.
 - Saturation effect:
-  - The improvement curve is steep from Tiny → Medium, but gains taper off from Medium → Large.
+  - The improvement curve is steep from Tiny → Small, but gains taper off from Small → Large.
   - This suggests diminishing returns — after a certain point, adding more data yields only marginal improvements. 
