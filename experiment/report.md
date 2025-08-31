@@ -63,8 +63,8 @@ RQ4: How well do models trained on one language generalize to unseen languages?
 RQ5: How does dataset size affect performance?
   
 ## Results
-**RQ1**: 
-Steps:  
+### RQ1: 
+**Steps**:  
 - We conducted 2 comparisons to derive an answer to this question.
 - We considered `Java` as training language and compared its F1 score when it was trained with a combination of languages.
   
@@ -79,7 +79,7 @@ Steps:
 | python, java, cpp, javascript    | java             | 0.64     | 0.50       |
 | python, java, javascript         | java             | 0.64     | 0.50       |
 
-**Note: PHP and Go were excluded from the experiment due to lack of sufficient data.
+**Note**: PHP and Go were excluded from the experiment due to lack of sufficient data.
 
 **Analysis:**  
 - The F1 score and accuracy both dropped when java was trained on a combination of languages.
@@ -101,12 +101,12 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 - The F1 score and accuracy both dropped and increased when java was trained on a combination of languages but tested on `c++`.
 - It is also worthy to note how adding javascript in the mixture of languages significantly reduces the performance.
 
-**RQ2**: 
+### RQ2: 
 **Steps**:
 - The dataset already contains a `Model` column, which represents the family of models (e.g., Random Forest, SVM, Random Forest etc.).
 - A column called `Train_Size_Type` was created with the formula:
   
-  ```=IF(G2<40,"Tiny",IF(G2<100,"Small",IF(G2<250,"Medium",IF(G2<500,"Large","Large"))))```  
+  ``` =IF(G2<40,"Tiny",IF(G2<100,"Small",IF(G2<250,"Medium",IF(G2<500,"Large","Large")))) ```  
 
   According to the train size number, rows were put into classes - `Tiny`, `Small`, `Medium`, `Large`.
 
@@ -115,7 +115,7 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 - Then for each of the buckets created earlier we took an average of the F1 score obtained for that model.
 - We filtered out the average of all the models with dataset `small`.
 
-  Results are as follows:
+Results are as follows:
   
 |      Model       |   Average F1   |
 |:----------------:|:--------------:|
@@ -139,7 +139,7 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 **Analysis**: 
 - Voting Ensemble, XGBoost, and Random Forest perform well in both the setups.
 
-**RQ3**: 
+### RQ3: 
 **Steps**:
 - In order to derive an answer to this question, we created 2 tables.
 - One table represented the languages trained and tested on themselves.
@@ -172,7 +172,7 @@ Cross-Language Patterns
 Java → JavaScript shows exceptional transfer, suggesting that models trained on Java can easily adapt to JavaScript due to syntactic and conceptual similarity.
 Transfer to C++ and Python is weaker but still better than random, meaning the model does retain useful cross-language representations.
 
-**RQ5**: How does dataset size affect performance?
+### RQ5: How does dataset size affect performance?
 Steps:
 - We divided training size into buckets of - 40, 100, 500 as Tiny, Medium, Large respectively.
 - Then, we calculated model-wise performance in these buckets.
