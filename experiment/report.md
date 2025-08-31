@@ -151,9 +151,12 @@ We performed two sets of comparisons:
 
 ### RQ3: How well do models trained on one language generalize to unseen languages? 
 **Steps**:
-- In order to derive an answer to this question, we created 2 tables.
-- One table represented the languages trained and tested on themselves.
+- We created two tables:
+  - Self-performance table: Models trained and tested on the same language.
+  - Cross-language table: Models trained on one language but tested on other, unseen languages.
+- We then compared the F1 and Accuracy scores to evaluate the degree of generalization.
 
+Results (Same training and testing language):
 | Training Languages | Testing Languages |   F1   |
 |:------------------:|:-----------------:|:------:|
 | cpp                | cpp               | 0.92   |
@@ -162,32 +165,52 @@ We performed two sets of comparisons:
 | php                | php               | 0.00   |
 | python             | python            | 0.91   |
 
+- Models perform very strongly on cpp, java, and python (F1 ≥ 0.90).
+- JavaScript lags (F1 = 0.67), suggesting less reliable representation.
+- PHP fails completely (F1 = 0.00), likely due to insufficient or noisy data.
 - The other table we created, showed the performance of languages when tested on varied unseen languages.
 
+Results (Cross-language generalization):
 | Training Languages | Testing Languages |   F1   | Accuracy |
 |:------------------:|:-----------------:|:------:|:--------:|
 | java               | java              | 0.90   | 0.90     |
 | java               | cpp               | 0.69   | 0.65     |
 | java               | python            | 0.71   | 0.62     |
 
-  A few interesting observation to note:
-- Seen Language (java → java)
-  - Very strong performance (Accuracy = 0.90, F1 = 0.90).
-    Confirms excellent specialization when tested on the training language.
-- Unseen Languages
-  - cpp: Moderate generalization (Acc = 0.65, F1 = 0.69).
-  - python: Slightly weaker (Acc = 0.62, F1 = 0.71).
+- Seen Language (java -> java):
+  - Strong specialization (Acc = 0.90, F1 = 0.90).
+- Unseen Languages:
+  - java -> cpp: Moderate generalization (F1 = 0.69).
+  - java -> python: Slightly weaker but comparable (F1 = 0.71).
 
-Cross-Language Patterns
-Java → JavaScript shows exceptional transfer, suggesting that models trained on Java can easily adapt to JavaScript due to syntactic and conceptual similarity.
-Transfer to C++ and Python is weaker but still better than random, meaning the model does retain useful cross-language representations.
+Analysis:
+- Performance is highest when training and testing on the same language (as expected).
+- Generalization exists but is partial:
+- Java-trained models transfer moderately well to C++ and Python, indicating some shared structural and syntactic features.
+- Cross-language scores (0.69–0.71 F1) are well above random, showing that learned representations are not language-specific.
+- Weak spots:
+  - JavaScript shows lower in-language performance, and by extension, it may be a poor contributor in multilingual setups.
+  -PHP data is too sparse or inconsistent to support meaningful generalization.
+
+**Conclusions**:
+- Models trained on one language retain useful representations for unseen languages, but the degree of transfer depends heavily on similarity between the two languages and dataset quality.
+- Strong transfer is observed between Java and structurally similar languages (C++, Python).
+- Some languages (e.g., PHP, JavaScript) underperform, highlighting that less or noisy datasets limit both specialization and generalization.
 
 ### RQ5: How does dataset size affect performance?
-Steps:
-- We divided training size into buckets of - 40, 100, 500 as Tiny, Medium, Large respectively.
-- Then, we calculated model-wise performance in these buckets using `Average F1 Score`.
+**Steps**:
+- Training sizes were bucketed into three categories:
+  - Tiny (< 40 samples)
+  - Medium (< 100 samples)
+  - Large (< 500 samples)
+- For each bucket, we computed the average F1 score per model.
+- Performance trends were visualized in the graph below.
   
 ![Graph](graph_1.png)
 
 **Analysis**
-- From the graph above, it is visible that model performance does increase with the dataset size but saturated after a point in the dataset. 
+- Positive correlation with size:
+  - Across all models, performance improves as dataset size increases, confirming that more training data consistently benefits model learning.
+- Saturation effect:
+  - The improvement curve is steep from Tiny → Medium, but gains taper off from Medium → Large.
+  - This suggests diminishing returns — after a certain point, adding more data yields only marginal improvements. 
