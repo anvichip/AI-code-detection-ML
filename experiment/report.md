@@ -51,23 +51,19 @@ Each entry must include the following keys:
 - The complete experiment results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
 ## Research Questions
-- **RQ1**: Is it better to use a model trained on more than one language, or a model with few data points?
+- **RQ1**: “Is it better to use a model trained on multiple languages, or a model trained on a single language with fewer data points?”
 - **RQ2**: Which family of models performs the best?
 - **RQ3**: How well do models trained on one language generalize to unseen languages?
 - **RQ4**: How does dataset size affect performance?
 
-- RQ1: Do models benefit from being trained on more than one language?
-RQ2: Which family of models performs the best?
-RQ3: Is it better to use a model trained on more than one language, or a model with few data points?
-RQ4: How well do models trained on one language generalize to unseen languages?
-RQ5: How does dataset size affect performance?
-  
 ## Results
-### RQ1: 
+### RQ1: Is it better to use a model trained on more than one language, or a model with few data points?
 **Steps**:  
-- We conducted 2 comparisons to derive an answer to this question.
-- We considered `Java` as training language and compared its F1 score when it was trained with a combination of languages.
-  
+We performed two sets of comparisons:
+- Training on Java (alone or in combination) and testing on Java.
+- Training on Java (alone or in combination) and testing on C++.
+
+**Case 1: Training on Java and testing on Java**
 |        Training Languages        | Testing Language | Accuracy |   F1       |
 |:--------------------------------:|:----------------:|:--------:|:----------:|
 | java                             | java             | 0.90     | **0.90**   |
@@ -81,11 +77,12 @@ RQ5: How does dataset size affect performance?
 
 **Note**: PHP and Go were excluded from the experiment due to lack of sufficient data.
 
-**Analysis:**  
-- The F1 score and accuracy both dropped when java was trained on a combination of languages.
+**Analysis**:
+- Models trained only on Java performed best when tested on Java.
+- Adding C++ or JavaScript generally degraded performance.
+- Interestingly, Python + Java preserved Java performance (0.90 F1), suggesting that certain language pairs can complement each other.
 
-On the other hand, when we inspected the testing of the above models on `cpp` language we observed both increases and decreases in performance.
-
+**Case 2: Training on Java and testing on C++**
 |       Training Languages        | Testing Languages |   F1   | Accuracy |
 |:-------------------------------:|:-----------------:|:------:|:--------:|
 | java                            | cpp               | 0.69   | 0.65     |
@@ -97,49 +94,62 @@ On the other hand, when we inspected the testing of the above models on `cpp` la
 | python, java, cpp, javascript   | cpp               | 0.13   | 0.50     |
 | python, java, javascript        | cpp               | 0.13   | 0.50     |
 
-**Analysis:**  
-- The F1 score and accuracy both dropped and increased when java was trained on a combination of languages but tested on `c++`.
-- It is also worthy to note how adding javascript in the mixture of languages significantly reduces the performance.
+**Analysis**:
+- Adding C++ during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
+- Adding JavaScript caused performance to collapse (F1 0.13), showing that some languages in the mix can be detrimental.
+- Python had a neutral effect—it neither helped nor hurt significantly.
 
-### RQ2: 
+**Conclusion**:
+- Training on multiple languages is not always beneficial.
+- The impact depends on the similarity and compatibility of languages:
+  - Java with C++ pairing improved generalization.
+  - Java with JavaScript pairing degraded performance severely.
+
+### RQ2: Which family of models performs the best?
 **Steps**:
 - The dataset already contains a `Model` column, which represents the family of models (e.g., Random Forest, SVM, Random Forest etc.).
-- A column called `Train_Size_Type` was created with the formula:
+- We created a Train_Size_Type column using the formula:
   
   ``` =IF(G2<40,"Tiny",IF(G2<100,"Small",IF(G2<250,"Medium",IF(G2<500,"Large","Large")))) ```  
 
-  According to the train size number, rows were put into classes - `Tiny`, `Small`, `Medium`, `Large`.
-
-**Setup**
-- We took rows where training languae is equal to testing language.
-- Then for each of the buckets created earlier we took an average of the F1 score obtained for that model.
-- We filtered out the average of all the models with dataset `small`.
-
-Results are as follows:
+  This classified training datasets into four groups: `Tiny`, `Small`, `Medium`, and `Large`
   
-|      Model       |   Average F1   |
-|:----------------:|:--------------:|
-| SVM              | 0.86           |
-| Voting Ensemble  | 0.92           |
-| XGBoost          | 0.92           |
-| Random Forest    | 0.90           | 
-| MLP              | 0.86           |
-| SVM              | 0.75           |
+- For this analysis, we considered only rows where the training and testing languages were the same
+- For each model and size group, we computed the average F1 score.
 
-- Then, we filtered out the average of all the models with dataset `Large`.
+**Results (by training size)**:
+| Model               | Tiny | Small | Large |
+|---------------------|:----:|:-----:|:-----:|
+| **MLP**             | 0.54 | 0.86  | 0.94  |
+| **Random Forest**   | 0.54 | 0.90  | 0.92  |
+| **SVM**             | 0.50 | 0.75  | 0.86  |
+| **Voting Ensemble** | 0.60 | 0.93  | 0.94  |
+| **XGBoost**         | 0.60 | 0.93  | 0.94  |
 
-|      Model       | Average F1 |
-|:----------------:|:----------:|
-| MLP              | 0.94       |
-| Voting Ensemble  | 0.94       |
-| XGBoost          | 0.94       |
-| Random Forest    | 0.92       |
-| SVM              | 0.86       |
+**Results (overall averages)**:
+| Model           | Avg F1   |
+| :--------------:| :------: |
+| Voting Ensemble | **0.94** |
+| XGBoost         | **0.94** |
+| MLP             | 0.92     |
+| Random Forest   | 0.92     |
+| SVM             | 0.83     |
 
-**Analysis**: 
-- Voting Ensemble, XGBoost, and Random Forest perform well in both the setups.
+**Analysis**:
+- **Tiny datasets**: All models perform poorly (<0.60 F1), highlighting the difficulty of learning with very limited data.
+- **Scaling with data**:
+  - MLP, Voting Ensemble, and XGBoost benefit most from larger datasets, reaching ~0.94 F1.
+  - Random Forest improves steadily but slightly lags behind at large scale (0.92).
+  - SVM performs the worst overall, though it improves with more data.
+- **Consistency**: Voting Ensemble and XGBoost not only achieve the highest averages but also show strong performance across sizes.
 
-### RQ3: 
+**Conclusions**:
+- Voting Ensemble and XGBoost are the best-performing model families overall, achieving ~0.94 F1 on average.
+- MLP and Random Forest are strong contenders, particularly when enough training data is available.
+- SVM lags behind, especially on small datasets.
+- Performance is strongly tied to dataset size, with most models requiring at least “Small” training sets to perform competitively.
+
+### RQ3: How well do models trained on one language generalize to unseen languages? 
 **Steps**:
 - In order to derive an answer to this question, we created 2 tables.
 - One table represented the languages trained and tested on themselves.
@@ -175,26 +185,8 @@ Transfer to C++ and Python is weaker but still better than random, meaning the m
 ### RQ5: How does dataset size affect performance?
 Steps:
 - We divided training size into buckets of - 40, 100, 500 as Tiny, Medium, Large respectively.
-- Then, we calculated model-wise performance in these buckets.
+- Then, we calculated model-wise performance in these buckets using `Average F1 Score`.
   
-|      Model       | Train_Size_Type |  Average F1  |
-|:----------------:|:---------------:|:------------:|
-| MLP              | Tiny            | 0.536        |
-| MLP              | Small           | 0.8633       |
-| MLP              | Large           | 0.94         |
-| Random Forest    | Tiny            | 0.536        |
-| Random Forest    | Small           | 0.9033       |
-| Random Forest    | Large           | 0.92         |
-| SVM              | Tiny            | 0.496        |
-| SVM              | Small           | 0.75         |
-| SVM              | Large           | 0.86         |
-| Voting Ensemble  | Tiny            | 0.6          |
-| Voting Ensemble  | Small           | 0.9267       |
-| Voting Ensemble  | Large           | 0.94         |
-| XGBoost          | Tiny            | 0.6          |
-| XGBoost          | Small           | 0.9267       |
-| XGBoost          | Large           | 0.94         |
-
 ![Graph](graph_1.png)
 
 **Analysis**
