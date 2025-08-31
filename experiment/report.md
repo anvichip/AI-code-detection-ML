@@ -199,10 +199,11 @@ Analysis:
 
 ### RQ5: How does dataset size affect performance?
 **Steps**:
-- Training sizes were bucketed into three categories:
+- Training sizes were bucketed into four categories:
   - Tiny (< 40 samples)
   - Small (< 100 samples)
-  - Large (< 500 samples)
+  - Medium (< 250 samples)
+  - Large (> 250 samples)
 - For each bucket, we computed the average F1 score per model.
 - Performance trends were visualized in the graph below.
   
