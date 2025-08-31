@@ -195,5 +195,7 @@ Steps:
 | XGBoost          | Small           | 0.9267       |
 | XGBoost          | Large           | 0.94         |
 
+[!Graph](graph_1.png)
+
 **Analysis**
-- From the table above, it is visible that model performance does increase with the dataset size.
+- From the graph above, it is visible that model performance does increase with the dataset size but saturated after a point in the dataset. 
