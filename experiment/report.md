@@ -220,4 +220,13 @@ Analysis:
   - Across all models, performance improves as dataset size increases, confirming that more training data consistently benefits model learning.
 - Saturation effect:
   - The improvement curve is steep from Tiny → Small, but gains taper off from Small → Large.
-  - This suggests diminishing returns — after a certain point, adding more data yields only marginal improvements. 
+  - This suggests diminishing returns — after a certain point, adding more data yields only marginal improvements.
+
+## Experiment Conclusion
+- Multilingual training is not always beneficial — adding dissimilar languages (e.g., JavaScript with Java) can hurt performance, while structurally similar languages (e.g., Java + C++) can improve it.
+- Model family matters — Voting Ensemble and XGBoost consistently deliver the highest performance (~0.94 F1), followed closely by MLP and Random Forest, while SVM lags behind.
+- Cross-language generalization is possible but uneven — models trained on one language retain useful features for unseen ones, with stronger transfer between similar languages (Java → C++) and weak transfer for low-resource languages (PHP, JavaScript).
+- Dataset size has a strong effect — performance rises steeply from Tiny → Medium datasets, but gains plateau after Medium, showing diminishing returns.
+
+## Future Work
+- Due to time constraints we could not perform signigicance tests.
