@@ -239,9 +239,15 @@ Analysis:
   - Medium (< 250 samples)
   - Large (> 250 samples)
 - For each bucket, we computed the average F1 score per model.
-- Performance trends were visualized in the graph below.
-  
+- Performance trends are visualized in the graphs below.
+
+Performance for languages trained and tested on the same language
+
 <img src="graph_1.png" alt="Graph" width="590" height="490"/>
+
+Performance for languages trained and tested on the different languages
+
+<img src="graph_2.png" alt="Graph" width="590" height="490"/> 
 
 **Analysis**
 - Positive correlation with size:
@@ -249,6 +255,7 @@ Analysis:
 - Saturation effect:
   - The improvement curve is steep from Tiny → Small, but gains taper off from Small → Large.
   - This suggests diminishing returns — after a certain point, adding more data yields only marginal improvements.
+- On the contrary, when trained and tested on different languages the behaviour seemed inconsistent.
 
 ## Experiment Conclusion
 - Multilingual training is not always beneficial — adding dissimilar languages (e.g., JavaScript with Java) can hurt performance, while structurally similar languages (e.g., Java + C++) can improve it.
