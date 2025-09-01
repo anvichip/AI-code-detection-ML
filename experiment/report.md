@@ -52,9 +52,9 @@ Each entry must include the following keys:
 
 ## Research Questions
 - **RQ1**: “Is it better to use a model trained on multiple languages, or a model trained on a single language with fewer data points?”
-- **RQ2**: Which family of models performs the best?
-- **RQ3**: How well do models trained on one language generalize to unseen languages?
-- **RQ4**: How does dataset size affect performance?
+- **RQ2**: “Which family of models performs the best?“
+- **RQ3**: “How well do models trained on one language generalize to unseen languages?“
+- **RQ4**: “How does dataset size affect performance?“
 
 ## Results
 ### RQ1: Is it better to use a model trained on more than one language, or a model with few data points?
@@ -97,7 +97,7 @@ We performed two sets of comparisons:
 **Analysis**:
 - Adding C++ during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
 - Adding JavaScript caused performance to collapse (F1 0.13), showing that some languages in the mix can be detrimental.
-- Python had a neutral effect—it neither helped nor hurt significantly.
+- Python had a neutral effect - it neither helped nor hurt significantly.
 
 **Conclusion**:
 - Training on multiple languages is not always beneficial.
@@ -110,10 +110,17 @@ We performed two sets of comparisons:
 - The dataset already contains a `Model` column, which represents the family of models (e.g., Random Forest, SVM, Random Forest etc.).
 - We created a Train_Size_Type column using the formula:
   
-  ``` =IF(G2<40,"Tiny",IF(G2<100,"Small",IF(G2<250,"Medium",IF(G2<500,"Large","Large")))) ```  
-
-  This classified training datasets into four groups: `Tiny`, `Small`, `Medium`, and `Large`
+  ```excel
+  =IF(G2 < 40, "Tiny",
+    IF(G2 < 100, "Small",
+        IF(G2 < 250, "Medium",
+            IF(G2 < 500, "Large", 
+                "Large"
+            )
+        )
+    ))
   
+This classified training datasets into four groups: `Tiny`, `Small`, `Medium`, and `Large`.  
 - For this analysis, we considered only rows where the training and testing languages were the same
 - For each model and size group, we computed the average F1 score.
 
