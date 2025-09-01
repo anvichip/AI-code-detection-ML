@@ -75,19 +75,19 @@ We performed two sets of comparisons:
 **Case 2:** 
 1. Testing on C++, Java, Javascript, Python
    
-| Training Languages         | cpp  | java | javascript | python |
-| :------------------------: | :--: | :--: | :--------: | :----: |
-| cpp,javascript             | 0.13 | 0.64 | 0.67       | 0.22   |
-| java,cpp                   | 0.92 | 0.62 | 0.55       | 0.65   |
-| java,cpp,javascript        | 0.13 | 0.64 | 0.67       | 0.22   |
-| java,javascript            | 0.13 | 0.64 | 0.67       | 0.22   |
-| python,cpp                 | 0.92 | 0.62 | 0.55       | 0.65   |
-| python,cpp,javascript      | 0.13 | 0.64 | 0.67       | 0.22   |
-| python,java                | 0.69 | 0.90 | 1.00       | 0.71   |
-| python,java,cpp            | 0.92 | 0.62 | 0.55       | 0.65   |
-| python,java,cpp,javascript | 0.13 | 0.64 | 0.67       | 0.22   |
-| python,java,javascript     | 0.13 | 0.64 | 0.67       | 0.22   |
-| python,javascript          | 0.13 | 0.64 | 0.67       | 0.22   |
+| Training Languages | F1 Score (Testing Language = cpp)  | F1 Score (Testing Language = Java) | F1 Score (Testing Language = JavaScript) | F1 Score (Testing Language = Python) |
+| :----------------------------:|:----:|:----:|:--------:|:-----:|
+| cpp, JavaScript               | 0.13 | 0.64 | 0.67     | 0.22  |
+| Java, cpp                     | 0.92 | 0.62 | 0.55     | 0.65  |
+| Java, cpp, JavaScript         | 0.13 | 0.64 | 0.67     | 0.22  |
+| Java, JavaScript              | 0.13 | 0.64 | 0.67     | 0.22  |
+| Python, cpp                   | 0.92 | 0.62 | 0.55     | 0.65  |
+| Python, cpp, JavaScript       | 0.13 | 0.64 | 0.67     | 0.22  |
+| Python, Java                  | 0.69 | 0.90 | 1.00     | 0.71  |
+| Python, Java, cpp             | 0.92 | 0.62 | 0.55     | 0.65  |
+| Python, Java, cpp, JavaScript | 0.13 | 0.64 | 0.67     | 0.22  |
+| Python, Java, JavaScript      | 0.13 | 0.64 | 0.67     | 0.22  |
+| Python, JavaScript            | 0.13 | 0.64 | 0.67     | 0.22  |
  
 **Analysis**:
 - Adding C++ to java during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
@@ -114,6 +114,7 @@ We performed two sets of comparisons:
             )
         )
     ))
+  ```
   
 This classified training datasets into four groups: `Tiny`, `Small`, `Medium`, and `Large`.  
 - For this analysis, we considered only rows where the training and testing languages were the same
