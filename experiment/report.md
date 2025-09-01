@@ -231,7 +231,7 @@ Analysis:
 - Strong transfer is observed between Java and structurally similar languages (C++, Python).
 - Some languages (e.g., JavaScript) underperform, highlighting that less or noisy datasets limit both specialization and generalization.
 
-### RQ5: How does dataset size affect performance?
+### RQ4: How does dataset size affect performance?
 **Steps**:
 - Training sizes were bucketed into four categories:
   - Tiny (< 40 samples)
