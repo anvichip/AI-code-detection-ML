@@ -229,4 +229,4 @@ Analysis:
 - Dataset size has a strong effect — performance rises steeply from Tiny → Medium datasets, but gains plateau after Medium, showing diminishing returns.
 
 ## Future Work
-- Due to time constraints we could not perform signigicance tests.
+- Due to time constraints we could not perform significance tests.
