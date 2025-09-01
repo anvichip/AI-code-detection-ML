@@ -74,6 +74,7 @@ We performed two sets of comparisons:
 
 **Case 2:** 
 1. Testing on C++
+   
 |       Training Languages       | Testing Language |   F1   | Accuracy |
 |:------------------------------:|:----------------:|:------:|:--------:|
 | cpp, javascript                | cpp              | 0.13   | 0.50     |
@@ -85,6 +86,7 @@ We performed two sets of comparisons:
 | python, java, cpp, javascript  | cpp              | 0.13   | 0.50     |
 
 2. Testing on Java
+   
 |      Training Languages      | Testing Language |   F1   | Accuracy |
 |:----------------------------:|:----------------:|:------:|:--------:|
 | java, cpp                    | java             | 0.62   | 0.45     |
@@ -96,6 +98,7 @@ We performed two sets of comparisons:
 | python, java, javascript     | java             | 0.64   | 0.50     |
 
 3. Testing on Javascript
+   
 |       Training Languages       | Testing Language |   F1   | Accuracy |
 |:------------------------------:|:----------------:|:------:|:--------:|
 | cpp, javascript                | javascript       | 0.67   | 0.70     |
@@ -107,6 +110,7 @@ We performed two sets of comparisons:
 | python, javascript             | javascript       | 0.67   | 0.70     |
 
 4. Testing on Python
+   
 |       Training Languages       | Testing Language |   F1   | Accuracy |
 |:------------------------------:|:----------------:|:------:|:--------:|
 | python, cpp                    | python           | 0.65   | 0.48     |
