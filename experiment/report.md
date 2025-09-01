@@ -76,7 +76,7 @@ We performed two sets of comparisons:
 1. Testing on C++, Java, Javascript, Python
    
 | Training Languages         | cpp  | java | javascript | python |
-| -------------------------- | ---- | ---- | ---------- | ------ |
+| :------------------------: | :--: | :--: | :--------: | :----: |
 | cpp,javascript             | 0.13 | 0.64 | 0.67       | 0.22   |
 | java,cpp                   | 0.92 | 0.62 | 0.55       | 0.65   |
 | java,cpp,javascript        | 0.13 | 0.64 | 0.67       | 0.22   |
