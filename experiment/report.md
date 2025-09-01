@@ -1,5 +1,5 @@
 # Experiment Introduction
-This project was developed as part of Google Summer of Code 2025 with LINQS: LAB (Autograder) under UC OSPO. The goal of the project was to design and implement a detection system capable of producing confidence scores for identifying AI-generated code.
+This project was developed as part of Google Summer of Code 2025 with LINQS: Autograder under UC OSPO. The goal of the project was to design and implement a code detection system capable of producing confidence scores for identifying AI-generated code.
 
 ## Experiment Setup
 ## Datasets
@@ -9,7 +9,7 @@ This project utilizes three open-source datasets for training and evaluation:
 - [Dataset 3](https://github.com/Back3474/AI-Human-Generated-Program-Code-Dataset/blob/main)
 
 During training, files are named according to their dataset of origin. 
-In cases where multiple datasets are combined, filenames follow a concatenated naming convention, e.g., python_1_java_2 indicating python subset of dataset 1 and java subset of dataset 2.
+In cases where multiple datasets are combined, filenames follow a concatenated naming convention, e.g., python_1_java_2 indicates a combination of python subset of dataset 1 and java subset of dataset 2.
 
 ## Dataset Format
 The project expects datasets in JSON Lines (JSONL) format.
@@ -26,9 +26,9 @@ Each entry must include the following keys:
 ## Dataset Preparation
 - Data from the open-source datasets mentioned above was extracted for each language using the scripts:
   
-  - `source_files_extractor.py`
-  - `csv_data_extraction.py`
-  - `json_data_extraction.py`
+  - [`source_files_extractor.py`](data_scripts/source_files_extractor.py)
+  - [`csv_data_extraction.py`](data_scripts/csv_data_extraction.py)
+  - [`json_data_extraction.py`](data_scripts/json_data_extraction.py)
     
 - The extracted language specific datasets are available in the [curated dataset directory](curated_datasets).
 - These language specific datasets were then merged using `data_scripts/merge_json.py`.
