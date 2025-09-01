@@ -66,31 +66,31 @@ We performed two sets of comparisons:
 | Training Languages | Testing Languages |   F1   |
 |:------------------:|:-----------------:|:------:|
 | cpp                | cpp               | 0.92   |
-| java               | java              | 0.90   |
-| javascript         | javascript        | 0.67   |
-| python             | python            | 0.91   |
+| Java               | Java              | 0.90   |
+| JavaScript         | JavaScript        | 0.67   |
+| Python             | Python            | 0.91   |
 
 **Note**: PHP and Go were excluded from the experiment due to lack of sufficient data.
 
-**Case 2:** 
-1. Testing on C++, Java, Javascript, Python
+**Case 2: Training on multiple languages and testing on one language** 
+1. Testing on C++, Java, JavaScript, Python
    
-| Training Languages | F1 Score (Testing Language = cpp)  | F1 Score (Testing Language = Java) | F1 Score (Testing Language = JavaScript) | F1 Score (Testing Language = Python) |
-| :----------------------------:|:----:|:----:|:--------:|:-----:|
-| cpp, JavaScript               | 0.13 | 0.64 | 0.67     | 0.22  |
-| Java, cpp                     | 0.92 | 0.62 | 0.55     | 0.65  |
-| Java, cpp, JavaScript         | 0.13 | 0.64 | 0.67     | 0.22  |
-| Java, JavaScript              | 0.13 | 0.64 | 0.67     | 0.22  |
-| Python, cpp                   | 0.92 | 0.62 | 0.55     | 0.65  |
-| Python, cpp, JavaScript       | 0.13 | 0.64 | 0.67     | 0.22  |
-| Python, Java                  | 0.69 | 0.90 | 1.00     | 0.71  |
-| Python, Java, cpp             | 0.92 | 0.62 | 0.55     | 0.65  |
-| Python, Java, cpp, JavaScript | 0.13 | 0.64 | 0.67     | 0.22  |
-| Python, Java, JavaScript      | 0.13 | 0.64 | 0.67     | 0.22  |
-| Python, JavaScript            | 0.13 | 0.64 | 0.67     | 0.22  |
+| Training Languages         | F1 Score (Testing Language = cpp)  | F1 Score (Testing Language = Java) | F1 Score (Testing Language = JavaScript) | F1 Score (Testing Language = Python) |
+| :------------------------: | :--: | :--: | :--------: | :----: |
+| cpp, JavaScript             | 0.13 | 0.64 | 0.67       | 0.22   |
+| Java, cpp                   | 0.92 | 0.62 | 0.55       | 0.65   |
+| Java, cpp, JavaScript        | 0.13 | 0.64 | 0.67       | 0.22   |
+| Java, JavaScript            | 0.13 | 0.64 | 0.67       | 0.22   |
+| Python, cpp                 | 0.92 | 0.62 | 0.55       | 0.65   |
+| Python, cpp, JavaScript      | 0.13 | 0.64 | 0.67       | 0.22   |
+| Python, Java                | 0.69 | 0.90 | 1.00       | 0.71   |
+| Python, Java, cpp            | 0.92 | 0.62 | 0.55       | 0.65   |
+| Python, Java, cpp, JavaScript | 0.13 | 0.64 | 0.67       | 0.22   |
+| Python, Java, JavaScript     | 0.13 | 0.64 | 0.67       | 0.22   |
+| Python, JavaScript          | 0.13 | 0.64 | 0.67       | 0.22   |
  
 **Analysis**:
-- Adding C++ to java during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
+- Adding C++ to Java during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
 - Adding JavaScript caused performance to collapse (F1 0.13), showing that some languages in the mix can be detrimental.
 - Python had a neutral effect - it neither helped nor hurt significantly.
 
@@ -163,13 +163,13 @@ Results (Same training and testing language):
 | Training Languages | Testing Languages |   F1   |
 |:------------------:|:-----------------:|:------:|
 | cpp                | cpp               | 0.92   |
-| java               | java              | 0.90   |
-| javascript         | javascript        | 0.67   |
-| python             | python            | 0.91   |
+| Java               | Java              | 0.90   |
+| JavaScript         | JavaScript        | 0.67   |
+| Python             | Python            | 0.91   |
 
 *Go and PHP are excluded due to lack of sufficient data
 
-- Models perform very strongly on cpp, java, and python (F1 ≥ 0.90).
+- Models perform very strongly on cpp, Java, and Python (F1 ≥ 0.90).
 - JavaScript lags (F1 = 0.67), suggesting less reliable representation.
   
 The other table we created, showed the performance of languages when tested on varied unseen languages.
@@ -178,32 +178,32 @@ The other table we created, showed the performance of languages when tested on v
 
 | Training Language | Testing Language |  F1  | Accuracy |
 |:-----------------:|:----------------:|:----:|:--------:|
-| java              | cpp              | 0.69 | 0.65     |
-| javascript        | cpp              | 0.13 | 0.50     |
-| python            | cpp              | 0.49 | 0.57     |
+| Java              | cpp              | 0.69 | 0.65     |
+| JavaScript        | cpp              | 0.13 | 0.50     |
+| Python            | cpp              | 0.49 | 0.57     |
 
 | Training Language | Testing Language  |  F1  | Accuracy |
 |:-----------------:|:-----------------:|:----:|:--------:|
-| cpp               | java              | 0.69 | 0.65     |
-| javascript        | java              | 0.64 | 0.50     |
-| python            | java              | 0.8  | 0.75     |
+| cpp               | Java              | 0.69 | 0.65     |
+| JavaScript        | Java              | 0.64 | 0.50     |
+| Python            | Java              | 0.8  | 0.75     |
 
 | Training Languages | Testing Language |  F1  | Accuracy |
 |:------------------:|:----------------:|:----:|:--------:|
-| cpp                | javascript       | 0.55 | 0.50     |
-| java               | javascript       | 1.00 | 1.00     |
-| python             | javascript       | 0.75 | 0.80     |
+| cpp                | JavaScript       | 0.55 | 0.50     |
+| Java               | JavaScript       | 1.00 | 1.00     |
+| Python             | JavaScript       | 0.75 | 0.80     |
 
 | Training Language | Testing Language |  F1  | Accuracy |
 |:-----------------:|:----------------:|:----:|:--------:|
-| cpp               | python           | 0.65 | 0.48     |
-| java              | python           | 0.71 | 0.62     |
-| python            | python           | 0.91 | 0.90     |
+| cpp               | Python           | 0.65 | 0.48     |
+| Java              | Python           | 0.71 | 0.62     |
+| Python            | Python           | 0.91 | 0.90     |
 
 - Seen language show strong performance.
 - Unseen Languages:
-  - java -> cpp: Moderate generalization (F1 = 0.69).
-  - java -> python: Slightly weaker but comparable (F1 = 0.71).
+  - Java -> cpp: Moderate generalization (F1 = 0.69).
+  - Java -> Python: Slightly weaker but comparable (F1 = 0.71).
   - C++/Python → JavaScript: Weaker performance (F1 = 0.55–0.75).
     
 Analysis:
