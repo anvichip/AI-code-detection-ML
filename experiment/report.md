@@ -213,7 +213,7 @@ Analysis:
 - For each bucket, we computed the average F1 score per model.
 - Performance trends were visualized in the graph below.
   
-![Graph](graph_1.png)
+<img src="graph_1.png" alt="Graph" width="590" height="490"/>
 
 **Analysis**
 - Positive correlation with size:
