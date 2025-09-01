@@ -56,3 +56,5 @@ Optionally, you can choose to convert your results into a .tsv for easier readab
 ```
 python3 -m scripts.tsv_creator_script --data_dir path/to/your/results/directory --metrics_file codebert_metrics.json --output_tsv name_to_save_tsv_file
 ```
+## Experiment
+Read our full experiment where we trained and tested our ML models [here](experiment/report.md).
