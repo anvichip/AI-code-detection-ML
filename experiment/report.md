@@ -1,6 +1,5 @@
 # Experiment Introduction
-This project was developed in Google Summer of Code 2025 for LINQS: LAB (Autograder) UC OSPO.
-The aim of the project was to create a detection system to produce a confidence score for AI-generated code.
+This project was developed as part of Google Summer of Code 2025 with LINQS: LAB (Autograder) under UC OSPO. The goal of the project was to design and implement a detection system capable of producing confidence scores for identifying AI-generated code.
 
 ## Experiment Setup
 ## Datasets
