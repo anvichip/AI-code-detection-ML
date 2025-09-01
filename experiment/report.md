@@ -50,7 +50,7 @@ Each entry must include the following keys:
 - The complete experiment results can be found [here](https://docs.google.com/spreadsheets/d/1otK4V8OKmIkNpBL08ZQCtp5fkIpYQJi7aa6SDMDiWcE/edit?usp=sharing).
 
 ## Research Questions
-- **RQ1**: “Is it better to use a model trained on multiple languages, or a model trained on a single language with fewer data points?”
+- **RQ1**: “Is it better to use a model trained on multiple languages, or a model trained with fewer data points?”
 - **RQ2**: “Which family of models performs the best?“
 - **RQ3**: “How well do models trained on one language generalize to unseen languages?“
 - **RQ4**: “How does dataset size affect performance?“
@@ -59,42 +59,66 @@ Each entry must include the following keys:
 ### RQ1: Is it better to use a model trained on more than one language, or a model with few data points?
 **Steps**:  
 We performed two sets of comparisons:
-- Training on Java (alone or in combination) and testing on Java.
-- Training on Java (alone or in combination) and testing on C++.
+- Training and testing on same language.
+- Training on multiple languages and testing on each language.
 
-**Case 1: Training on Java and testing on Java**
-|        Training Languages        | Testing Language | Accuracy |   F1       |
-|:--------------------------------:|:----------------:|:--------:|:----------:|
-| java                             | java             | 0.90     | **0.90**   |
-| java, cpp                        | java             | 0.62     | 0.45       |
-| java, cpp, javascript            | java             | 0.64     | 0.50       |
-| java, javascript                 | java             | 0.64     | 0.50       |
-| python, java                     | java             | 0.90     | 0.90       |
-| python, java, cpp                | java             | 0.62     | 0.45       |
-| python, java, cpp, javascript    | java             | 0.64     | 0.50       |
-| python, java, javascript         | java             | 0.64     | 0.50       |
+**Case 1: Training and testing on same language**
+| Training Languages | Testing Languages |   F1   |
+|:------------------:|:-----------------:|:------:|
+| cpp                | cpp               | 0.92   |
+| java               | java              | 0.90   |
+| javascript         | javascript        | 0.67   |
+| python             | python            | 0.91   |
 
 **Note**: PHP and Go were excluded from the experiment due to lack of sufficient data.
 
-**Analysis**:
-- Models trained only on Java performed best when tested on Java.
-- Adding C++ or JavaScript generally degraded performance.
-- Interestingly, Python + Java preserved Java performance (0.90 F1), suggesting that certain language pairs can complement each other.
+**Case 2:** 
+1. Testing on C++
+|       Training Languages       | Testing Language |   F1   | Accuracy |
+|:------------------------------:|:----------------:|:------:|:--------:|
+| cpp, javascript                | cpp              | 0.13   | 0.50     |
+| java, cpp                      | cpp              | 0.92   | 0.92     |
+| java, cpp, javascript          | cpp              | 0.13   | 0.50     |
+| python, cpp                    | cpp              | 0.92   | 0.92     |
+| python, cpp, javascript        | cpp              | 0.13   | 0.50     |
+| python, java, cpp              | cpp              | 0.92   | 0.92     |
+| python, java, cpp, javascript  | cpp              | 0.13   | 0.50     |
 
-**Case 2: Training on Java and testing on C++**
-|       Training Languages        | Testing Languages |   F1   | Accuracy |
-|:-------------------------------:|:-----------------:|:------:|:--------:|
-| java                            | cpp               | 0.69   | 0.65     |
-| java, cpp                       | cpp               | 0.92   | 0.92     |
-| java, cpp, javascript           | cpp               | 0.13   | 0.50     |
-| java, javascript                | cpp               | 0.13   | 0.50     |
-| python, java                    | cpp               | 0.69   | 0.65     |
-| python, java, cpp               | cpp               | 0.92   | 0.92     |
-| python, java, cpp, javascript   | cpp               | 0.13   | 0.50     |
-| python, java, javascript        | cpp               | 0.13   | 0.50     |
+2. Testing on Java
+|      Training Languages      | Testing Language |   F1   | Accuracy |
+|:----------------------------:|:----------------:|:------:|:--------:|
+| java, cpp                    | java             | 0.62   | 0.45     |
+| java, cpp, javascript        | java             | 0.64   | 0.50     |
+| java, javascript             | java             | 0.64   | 0.50     |
+| python, java                 | java             | 0.90   | 0.90     |
+| python, java, cpp            | java             | 0.62   | 0.45     |
+| python, java, cpp, javascript| java             | 0.64   | 0.50     |
+| python, java, javascript     | java             | 0.64   | 0.50     |
+
+3. Testing on Javascript
+|       Training Languages       | Testing Language |   F1   | Accuracy |
+|:------------------------------:|:----------------:|:------:|:--------:|
+| cpp, javascript                | javascript       | 0.67   | 0.70     |
+| java, cpp, javascript          | javascript       | 0.67   | 0.70     |
+| java, javascript               | javascript       | 0.67   | 0.70     |
+| python, cpp, javascript        | javascript       | 0.67   | 0.70     |
+| python, java, cpp, javascript  | javascript       | 0.67   | 0.70     |
+| python, java, javascript       | javascript       | 0.67   | 0.70     |
+| python, javascript             | javascript       | 0.67   | 0.70     |
+
+4. Testing on Python
+|       Training Languages       | Testing Language |   F1   | Accuracy |
+|:------------------------------:|:----------------:|:------:|:--------:|
+| python, cpp                    | python           | 0.65   | 0.48     |
+| python, cpp, javascript        | python           | 0.22   | 0.33     |
+| python, java                   | python           | 0.71   | 0.62     |
+| python, java, cpp              | python           | 0.65   | 0.48     |
+| python, java, cpp, javascript  | python           | 0.22   | 0.33     |
+| python, java, javascript       | python           | 0.22   | 0.33     |
+| python, javascript             | python           | 0.22   | 0.33     |   
 
 **Analysis**:
-- Adding C++ during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
+- Adding C++ to java during training dramatically improved performance when testing on C++ (F1 0.92 vs. 0.69).
 - Adding JavaScript caused performance to collapse (F1 0.13), showing that some languages in the mix can be detrimental.
 - Python had a neutral effect - it neither helped nor hurt significantly.
 
