@@ -198,31 +198,50 @@ Results (Same training and testing language):
 | javascript         | javascript        | 0.67   |
 | python             | python            | 0.91   |
 
-*PHP is excluded due to lack of sufficient data
+*Go and PHP are excluded due to lack of sufficient data
 
 - Models perform very strongly on cpp, java, and python (F1 ≥ 0.90).
 - JavaScript lags (F1 = 0.67), suggesting less reliable representation.
   
 The other table we created, showed the performance of languages when tested on varied unseen languages.
 
-Results (Cross-language generalization):
+**Results (Cross-language generalization):**
+
+| Training Language | Testing Language |  F1  | Accuracy |
+|:-----------------:|:----------------:|:----:|:--------:|
+| java              | cpp              | 0.69 | 0.65     |
+| javascript        | cpp              | 0.13 | 0.50     |
+| python            | cpp              | 0.49 | 0.57     |
+
 | Training Languages | Testing Languages |   F1   | Accuracy |
 |:------------------:|:-----------------:|:------:|:--------:|
-| java               | java              | 0.90   | 0.90     |
 | java               | cpp               | 0.69   | 0.65     |
 | java               | python            | 0.71   | 0.62     |
+| java               | javascript        | 1      | 1        |
 
-- Seen Language (java -> java):
-  - Strong specialization (Acc = 0.90, F1 = 0.90).
+| Training Languages | Testing Language |  F1  | Accuracy |
+|:------------------:|:----------------:|:----:|:--------:|
+| cpp                | javascript       | 0.55 | 0.50     |
+| java               | javascript       | 1.00 | 1.00     |
+| python             | javascript       | 0.75 | 0.80     |
+
+| Training Language | Testing Language |  F1  | Accuracy |
+|:-----------------:|:----------------:|:----:|:--------:|
+| cpp               | python           | 0.65 | 0.48     |
+| java              | python           | 0.71 | 0.62     |
+| python            | python           | 0.91 | 0.90     |
+
+- Seen language show strong performance.
 - Unseen Languages:
   - java -> cpp: Moderate generalization (F1 = 0.69).
   - java -> python: Slightly weaker but comparable (F1 = 0.71).
-
+  - C++/Python → JavaScript: Weaker performance (F1 = 0.55–0.75).
+    
 Analysis:
 - Performance is highest when training and testing on the same language (as expected).
 - Generalization on unseen languages exists but is partial:
 - Java-trained models transfer moderately well to C++ and Python, indicating some shared structural and syntactic features.
-- Cross-language scores (0.69–0.71 F1) are well above random, showing that learned representations are not language-specific.
+- Cross-language scores are well above random, showing that learned representations are not language-specific.
 - Weak spots:
   - JavaScript shows lower performance in same train and test setup, and by extension, it may be a poor contributor in multilingual training setup.
 
